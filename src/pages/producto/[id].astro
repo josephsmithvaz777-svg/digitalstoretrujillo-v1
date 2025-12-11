@@ -1,0 +1,365 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getProductById, getAllProducts } from "../../data/products";
+import "../../styles/global.css";
+
+export async function getStaticPaths() {
+    const products = getAllProducts();
+    return products.map((product) => ({
+        params: { id: product.id },
+    }));
+}
+
+const { id } = Astro.params;
+const product = getProductById(id as string);
+
+if (!product) {
+    return Astro.redirect("/404");
+}
+---
+
+<Layout
+    title={`${product.name} - DigitalStore`}
+    description={product.description}
+>
+    <Header currentPath="/tienda" />
+
+    <main class="flex-grow bg-background-light dark:bg-background-dark">
+        <!-- Breadcrumb -->
+        <div class="border-b border-gray-200 dark:border-slate-800">
+            <div class="container mx-auto px-4 md:px-10 py-4">
+                <nav class="flex items-center gap-2 text-sm">
+                    <a
+                        href="/"
+                        class="text-slate-500 dark:text-gray-400 hover:text-primary transition-colors"
+                    >
+                        Inicio
+                    </a>
+                    <span class="text-slate-400 dark:text-gray-600">/</span>
+                    <a
+                        href="/tienda"
+                        class="text-slate-500 dark:text-gray-400 hover:text-primary transition-colors"
+                    >
+                        Tienda
+                    </a>
+                    <span class="text-slate-400 dark:text-gray-600">/</span>
+                    <span class="text-slate-900 dark:text-white font-medium">
+                        {product.name}
+                    </span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="container mx-auto px-4 md:px-10 py-12 max-w-7xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Product Image/Logo -->
+                <div class="flex items-center justify-center">
+                    <div
+                        class={`relative w-full max-w-md aspect-square rounded-3xl ${product.gradient} p-12 shadow-2xl`}
+                    >
+                        {
+                            product.logo ? (
+                                <img
+                                    src={product.logo}
+                                    alt={product.name}
+                                    class="w-full h-full object-contain drop-shadow-2xl"
+                                />
+                            ) : (
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-white text-[120px] opacity-50">
+                                        shopping_bag
+                                    </span>
+                                </div>
+                            )
+                        }
+
+                        {
+                            product.badge && (
+                                <div
+                                    class={`absolute top-6 right-6 px-4 py-2 rounded-full text-white font-bold text-sm shadow-lg
+								${product.badgeColor === "red" ? "bg-red-500" : ""}
+								${product.badgeColor === "green" ? "bg-green-500" : ""}
+								${product.badgeColor === "blue" ? "bg-blue-500" : ""}
+								${product.badgeColor === "purple" ? "bg-purple-500" : ""}
+								${!product.badgeColor ? "bg-primary" : ""}
+							`}
+                                >
+                                    {product.badge}
+                                </div>
+                            )
+                        }
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="flex flex-col gap-6">
+                    <div>
+                        <div
+                            class="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-4"
+                        >
+                            {
+                                product.category === "streaming"
+                                    ? "Streaming"
+                                    : ""
+                            }
+                            {
+                                product.category === "creative"
+                                    ? "Herramientas Creativas"
+                                    : ""
+                            }
+                            {product.category === "security" ? "Seguridad" : ""}
+                            {product.category === "software" ? "Software" : ""}
+                        </div>
+
+                        <h1
+                            class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4"
+                        >
+                            {product.name}
+                        </h1>
+
+                        <p
+                            class="text-lg text-slate-600 dark:text-gray-400 mb-6"
+                        >
+                            {product.description}
+                        </p>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="flex items-baseline gap-4">
+                        <div
+                            class="text-5xl font-black text-slate-900 dark:text-white"
+                        >
+                            ${product.price}
+                            <span
+                                class="text-2xl font-normal text-slate-500 dark:text-gray-400"
+                            >
+                                /{product.duration}
+                            </span>
+                        </div>
+                        {
+                            product.originalPrice && (
+                                <div class="text-2xl text-slate-400 dark:text-gray-500 line-through">
+                                    ${product.originalPrice}
+                                </div>
+                            )
+                        }
+                    </div>
+
+                    {
+                        product.originalPrice && (
+                            <div class="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-semibold">
+                                <span class="material-symbols-outlined text-xl">
+                                    trending_down
+                                </span>
+                                Ahorra $
+                                {(
+                                    product.originalPrice - product.price
+                                ).toFixed(2)}{" "}
+                                (
+                                {Math.round(
+                                    (1 -
+                                        product.price / product.originalPrice) *
+                                        100,
+                                )}
+                                % de descuento)
+                            </div>
+                        )
+                    }
+
+                    <!-- Features -->
+                    <div
+                        class="border-t border-b border-gray-200 dark:border-slate-800 py-6"
+                    >
+                        <h3
+                            class="text-lg font-bold text-slate-900 dark:text-white mb-4"
+                        >
+                            Características incluidas:
+                        </h3>
+                        <ul class="space-y-3">
+                            {
+                                product.features.map((feature) => (
+                                    <li class="flex items-center gap-3 text-slate-700 dark:text-gray-300">
+                                        <span class="material-symbols-outlined text-primary text-xl">
+                                            check_circle
+                                        </span>
+                                        <span>{feature}</span>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    </div>
+
+                    <!-- Stock Status -->
+                    <div class="flex items-center gap-2">
+                        {
+                            product.stock > 0 ? (
+                                <>
+                                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                    <span class="text-sm text-slate-600 dark:text-gray-400">
+                                        {product.stock} unidades disponibles
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    <span class="w-2 h-2 rounded-full bg-red-500" />
+                                    <span class="text-sm text-red-600 dark:text-red-400">
+                                        Agotado
+                                    </span>
+                                </>
+                            )
+                        }
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 mt-4">
+                        <button
+                            id="addToCart"
+                            class="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled={product.stock === 0}
+                        >
+                            <span class="material-symbols-outlined"
+                                >shopping_cart</span
+                            >
+                            {
+                                product.stock > 0
+                                    ? "Agregar al Carrito"
+                                    : "Agotado"
+                            }
+                        </button>
+
+                        <button
+                            class="flex items-center justify-center gap-2 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold px-6 py-4 rounded-xl hover:border-primary transition-all"
+                        >
+                            <span class="material-symbols-outlined"
+                                >favorite_border</span
+                            >
+                        </button>
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div
+                        class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-gray-200 dark:border-slate-800"
+                    >
+                        <div
+                            class="flex flex-col items-center text-center gap-2"
+                        >
+                            <span
+                                class="material-symbols-outlined text-primary text-3xl"
+                                >verified</span
+                            >
+                            <span
+                                class="text-xs text-slate-600 dark:text-gray-400"
+                                >100% Seguro</span
+                            >
+                        </div>
+                        <div
+                            class="flex flex-col items-center text-center gap-2"
+                        >
+                            <span
+                                class="material-symbols-outlined text-primary text-3xl"
+                                >bolt</span
+                            >
+                            <span
+                                class="text-xs text-slate-600 dark:text-gray-400"
+                                >Entrega Instantánea</span
+                            >
+                        </div>
+                        <div
+                            class="flex flex-col items-center text-center gap-2"
+                        >
+                            <span
+                                class="material-symbols-outlined text-primary text-3xl"
+                                >support_agent</span
+                            >
+                            <span
+                                class="text-xs text-slate-600 dark:text-gray-400"
+                                >Soporte 24/7</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-gray-200 dark:border-slate-700"
+                >
+                    <h3
+                        class="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"
+                    >
+                        <span class="material-symbols-outlined text-primary"
+                            >info</span
+                        >
+                        Detalles del Producto
+                    </h3>
+                    <div class="space-y-3 text-slate-700 dark:text-gray-300">
+                        <p><strong>Categoría:</strong> {product.category}</p>
+                        <p><strong>Duración:</strong> {product.duration}</p>
+                        <p>
+                            <strong>Disponibilidad:</strong>
+                            {product.isActive ? "Activo" : "Inactivo"}
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-gray-200 dark:border-slate-700"
+                >
+                    <h3
+                        class="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2"
+                    >
+                        <span class="material-symbols-outlined text-primary"
+                            >local_shipping</span
+                        >
+                        Entrega y Garantía
+                    </h3>
+                    <div class="space-y-3 text-slate-700 dark:text-gray-300">
+                        <p>✓ Entrega digital instantánea por email</p>
+                        <p>✓ Garantía de satisfacción</p>
+                        <p>✓ Soporte técnico incluido</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <Footer />
+</Layout>
+
+<script>
+    document.getElementById("addToCart")?.addEventListener("click", () => {
+        const productId = window.location.pathname.split("/").pop();
+
+        // Get existing cart or create new one
+        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+        // Check if product already in cart
+        const existingItem = cart.find((item: any) => item.id === productId);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ id: productId, quantity: 1 });
+        }
+
+        // Save to localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        // Update cart count in header
+        const cartCount = cart.reduce(
+            (sum: number, item: any) => sum + item.quantity,
+            0,
+        );
+        const cartBadge = document.querySelector(".cart-count");
+        if (cartBadge) {
+            cartBadge.textContent = cartCount.toString();
+        }
+
+        // Show success message
+        alert("¡Producto agregado al carrito!");
+    });
+</script>

@@ -1,0 +1,128 @@
+---
+const { currentPath = "/" } = Astro.props;
+---
+
+<header
+    class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-[#283039] bg-white/90 dark:bg-[#111418]/90 backdrop-blur-md"
+>
+    <div
+        class="px-4 md:px-10 py-3 flex items-center justify-between mx-auto max-w-[1440px]"
+    >
+        <div class="flex items-center gap-4">
+            <a href="/" class="flex items-center gap-2 text-primary">
+                <span class="material-symbols-outlined text-[32px]"
+                    >shopping_bag</span
+                >
+                <h2
+                    class="text-slate-900 dark:text-white text-xl font-bold tracking-tight"
+                >
+                    DigitalStore
+                </h2>
+            </a>
+        </div>
+
+        <div class="hidden md:flex items-center gap-8">
+            <nav class="flex gap-6">
+                <a
+                    class={`text-sm font-medium transition-colors ${currentPath === "/" ? "text-primary" : "hover:text-primary"}`}
+                    href="/"
+                >
+                    Home
+                </a>
+                <a
+                    class={`text-sm font-medium transition-colors ${currentPath === "/tienda" ? "text-primary" : "hover:text-primary"}`}
+                    href="/tienda"
+                >
+                    Tienda
+                </a>
+                <a
+                    class="text-sm font-medium hover:text-primary transition-colors"
+                    href="#"
+                >
+                    Soporte
+                </a>
+                <a
+                    class="text-sm font-medium hover:text-primary transition-colors"
+                    href="#"
+                >
+                    Blog
+                </a>
+            </nav>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-4">
+            <a class="group flex items-center gap-2.5 sm:mr-1" href="/login">
+                <div
+                    class="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 dark:bg-[#283039] text-gray-500 dark:text-gray-400 group-hover:bg-primary group-hover:text-white transition-all duration-200"
+                >
+                    <span class="material-symbols-outlined text-[20px]"
+                        >person</span
+                    >
+                </div>
+                <div class="hidden sm:flex flex-col">
+                    <span
+                        class="text-[10px] font-medium text-gray-500 dark:text-gray-400 leading-tight"
+                        >Bienvenido</span
+                    >
+                    <span
+                        class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors leading-tight"
+                        >Login / Registro</span
+                    >
+                </div>
+            </a>
+
+            <div class="hidden sm:block h-8 w-px bg-gray-200 dark:bg-[#283039]">
+            </div>
+
+            <a
+                href="/carrito"
+                class="relative flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-[#283039] hover:bg-primary hover:text-white text-gray-700 dark:text-gray-300 transition-all"
+            >
+                <span class="material-symbols-outlined text-[24px]"
+                    >shopping_cart</span
+                >
+                <span
+                    class="cart-count absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold"
+                >
+                    0
+                </span>
+            </a>
+
+            <a
+                href="/dashboard"
+                class="flex h-10 items-center justify-center gap-2 rounded-lg bg-primary hover:bg-primary-hover px-4 text-sm font-bold text-white transition-colors shadow-lg shadow-primary/20"
+            >
+                <span class="material-symbols-outlined text-[20px]"
+                    >dashboard</span
+                >
+                <span class="hidden sm:inline">Dashboard</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<script>
+    // Update cart count on page load
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const cartCount = cart.reduce(
+            (sum: number, item: any) => sum + item.quantity,
+            0,
+        );
+        const cartBadge = document.querySelector(".cart-count");
+        if (cartBadge) {
+            cartBadge.textContent = cartCount.toString();
+            if (cartCount > 0) {
+                cartBadge.classList.remove("hidden");
+            }
+        }
+    }
+
+    updateCartCount();
+
+    // Listen for storage changes
+    window.addEventListener("storage", updateCartCount);
+
+    // Listen for custom cart update event
+    window.addEventListener("cartUpdated", updateCartCount);
+</script>

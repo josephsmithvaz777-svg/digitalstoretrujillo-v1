@@ -1,0 +1,215 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ProductCard from "../components/ProductCard.astro";
+import { getAllProducts } from "../data/products";
+import "../styles/global.css";
+
+const products = getAllProducts().slice(0, 4); // Mostrar solo 4 productos en home
+---
+
+<Layout title="DigitalStore - Suscripciones Premium">
+	<Header currentPath="/" />
+
+	<!-- Hero Section -->
+	<section
+		class="relative w-full bg-cover bg-center bg-no-repeat overflow-hidden py-16 md:py-24 bg-gradient-to-b from-background-dark to-slate-900"
+	>
+		<div
+			class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5"
+		>
+		</div>
+
+		<div
+			class="container mx-auto px-4 flex flex-col items-center text-center max-w-4xl relative z-10"
+		>
+			<div
+				class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider mb-6"
+			>
+				<span class="w-2 h-2 rounded-full bg-primary animate-pulse"
+				></span>
+				Entrega Digital Instantánea
+			</div>
+
+			<h1
+				class="text-4xl md:text-6xl font-black text-white mb-4 leading-tight tracking-tight"
+			>
+				Suscripciones Premium<br />
+				<span
+					class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400"
+					>Por Menos</span
+				>
+			</h1>
+
+			<p
+				class="text-gray-300 text-lg md:text-xl mb-10 max-w-2xl font-light"
+			>
+				Obtén acceso instantáneo a los mejores servicios de streaming,
+				software y gaming a precios inmejorables. Pago seguro vía Crypto
+				& Hotmart.
+			</p>
+
+			<div class="w-full max-w-xl">
+				<div
+					class="relative flex items-center w-full h-14 rounded-xl shadow-2xl bg-white dark:bg-[#1c2127] border border-gray-200 dark:border-[#3b4754] overflow-hidden focus-within:ring-2 focus-within:ring-primary transition-all"
+				>
+					<div
+						class="grid place-items-center h-full w-12 text-gray-400"
+					>
+						<span class="material-symbols-outlined">search</span>
+					</div>
+					<input
+						class="peer h-full w-full outline-none text-sm text-gray-700 dark:text-white bg-transparent pr-2"
+						id="search"
+						placeholder="Buscar Netflix, Spotify, Adobe..."
+						type="text"
+					/>
+					<div class="pr-2">
+						<button
+							class="bg-primary hover:bg-primary-hover text-white h-10 px-6 rounded-lg text-sm font-bold transition-colors"
+						>
+							Buscar
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Features Section -->
+	<section
+		class="border-t border-gray-200 dark:border-[#283039] bg-white dark:bg-[#151c24] py-12"
+	>
+		<div class="container mx-auto px-4 md:px-10">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+				<div class="flex flex-col items-center text-center p-4">
+					<div
+						class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4"
+					>
+						<span class="material-symbols-outlined text-2xl"
+							>bolt</span
+						>
+					</div>
+					<h4
+						class="text-lg font-bold text-slate-900 dark:text-white mb-2"
+					>
+						Entrega Instantánea
+					</h4>
+					<p
+						class="text-slate-500 dark:text-gray-400 text-sm max-w-[250px]"
+					>
+						Recibe los detalles de tu suscripción por email
+						inmediatamente después de la compra.
+					</p>
+				</div>
+
+				<div class="flex flex-col items-center text-center p-4">
+					<div
+						class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4"
+					>
+						<span class="material-symbols-outlined text-2xl"
+							>support_agent</span
+						>
+					</div>
+					<h4
+						class="text-lg font-bold text-slate-900 dark:text-white mb-2"
+					>
+						Soporte 24/7
+					</h4>
+					<p
+						class="text-slate-500 dark:text-gray-400 text-sm max-w-[250px]"
+					>
+						Nuestro equipo dedicado está aquí para ayudarte en
+						cualquier momento vía chat o email.
+					</p>
+				</div>
+
+				<div class="flex flex-col items-center text-center p-4">
+					<div
+						class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4"
+					>
+						<span class="material-symbols-outlined text-2xl"
+							>lock</span
+						>
+					</div>
+					<h4
+						class="text-lg font-bold text-slate-900 dark:text-white mb-2"
+					>
+						Pago Seguro
+					</h4>
+					<p
+						class="text-slate-500 dark:text-gray-400 text-sm max-w-[250px]"
+					>
+						Paga de forma segura con tu método preferido, incluyendo
+						Crypto y Hotmart.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Products Section -->
+	<main
+		class="flex-grow container mx-auto px-4 md:px-10 py-12 max-w-[1440px]"
+	>
+		<div class="flex items-end justify-between mb-8">
+			<div>
+				<h2 class="text-3xl font-bold text-slate-900 dark:text-white">
+					Suscripciones Populares
+				</h2>
+				<p class="text-slate-500 dark:text-gray-400 text-sm mt-2">
+					Los productos digitales más vendidos esta semana
+				</p>
+			</div>
+			<a
+				class="text-primary text-sm font-medium hover:underline hidden sm:block"
+				href="/tienda"
+			>
+				Ver todos los productos →
+			</a>
+		</div>
+
+		<div
+			class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+		>
+			{products.map((product) => <ProductCard {...product} />)}
+		</div>
+
+		<div class="mt-8 text-center">
+			<a
+				href="/tienda"
+				class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white font-bold px-8 py-3 rounded-lg transition-colors shadow-lg shadow-primary/20"
+			>
+				Ver Toda la Tienda
+				<span class="material-symbols-outlined text-[20px]"
+					>arrow_forward</span
+				>
+			</a>
+		</div>
+	</main>
+
+	<!-- CTA Section -->
+	<section class="bg-gradient-to-r from-primary to-blue-600 py-16">
+		<div class="container mx-auto px-4 text-center">
+			<h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+				¿Listo para empezar a ahorrar?
+			</h2>
+			<p class="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+				Únete a miles de clientes satisfechos que ya disfrutan de
+				suscripciones premium a precios increíbles.
+			</p>
+			<a
+				href="/tienda"
+				class="inline-flex items-center gap-2 bg-white text-primary hover:bg-gray-100 font-bold px-8 py-3 rounded-lg transition-colors shadow-lg"
+			>
+				Explorar Productos
+				<span class="material-symbols-outlined text-[20px]"
+					>shopping_bag</span
+				>
+			</a>
+		</div>
+	</section>
+
+	<Footer />
+</Layout>

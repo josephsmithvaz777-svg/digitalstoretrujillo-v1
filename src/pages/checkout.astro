@@ -1,0 +1,406 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+---
+
+<Layout title="Checkout - DigitalStore">
+    <Header currentPath="/checkout" />
+
+    <main
+        class="flex-grow bg-background-light dark:bg-background-dark min-h-screen"
+    >
+        <div class="container mx-auto px-4 md:px-10 py-12 max-w-6xl">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1
+                    class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-2"
+                >
+                    Finalizar Compra
+                </h1>
+                <p class="text-slate-600 dark:text-gray-400">
+                    Completa tu información para recibir tus productos
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Checkout Form -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Contact Information -->
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-gray-200 dark:border-slate-700"
+                    >
+                        <h2
+                            class="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2"
+                        >
+                            <span class="material-symbols-outlined text-primary"
+                                >person</span
+                            >
+                            Información de Contacto
+                        </h2>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-2"
+                                >
+                                    Email *
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    required
+                                    placeholder="tu@email.com"
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                />
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-2"
+                                    >
+                                        Nombre *
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="firstName"
+                                        required
+                                        placeholder="Juan"
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-2"
+                                    >
+                                        Apellido *
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="lastName"
+                                        required
+                                        placeholder="Pérez"
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-gray-200 dark:border-slate-700"
+                    >
+                        <h2
+                            class="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2"
+                        >
+                            <span class="material-symbols-outlined text-primary"
+                                >payment</span
+                            >
+                            Método de Pago
+                        </h2>
+
+                        <div class="space-y-4">
+                            <!-- Hotmart Option -->
+                            <label
+                                class="flex items-center gap-4 p-4 rounded-lg border-2 border-gray-200 dark:border-slate-700 cursor-pointer hover:border-primary transition-all"
+                            >
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="hotmart"
+                                    checked
+                                    class="w-5 h-5 text-primary focus:ring-primary"
+                                />
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-orange-500"
+                                            >local_fire_department</span
+                                        >
+                                        <span
+                                            class="font-bold text-slate-900 dark:text-white"
+                                            >Hotmart</span
+                                        >
+                                    </div>
+                                    <p
+                                        class="text-sm text-slate-600 dark:text-gray-400 mt-1"
+                                    >
+                                        Pago seguro con tarjeta, PayPal y más
+                                    </p>
+                                </div>
+                            </label>
+
+                            <!-- Crypto Option -->
+                            <label
+                                class="flex items-center gap-4 p-4 rounded-lg border-2 border-gray-200 dark:border-slate-700 cursor-pointer hover:border-primary transition-all"
+                            >
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="crypto"
+                                    class="w-5 h-5 text-primary focus:ring-primary"
+                                />
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-gray-500"
+                                            >currency_bitcoin</span
+                                        >
+                                        <span
+                                            class="font-bold text-slate-900 dark:text-white"
+                                            >Criptomonedas</span
+                                        >
+                                    </div>
+                                    <p
+                                        class="text-sm text-slate-600 dark:text-gray-400 mt-1"
+                                    >
+                                        Bitcoin, Ethereum, USDT y más
+                                    </p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-gray-200 dark:border-slate-700"
+                    >
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                id="terms"
+                                required
+                                class="mt-1 w-5 h-5 text-primary focus:ring-primary rounded"
+                            />
+                            <span
+                                class="text-sm text-slate-700 dark:text-gray-300"
+                            >
+                                Acepto los <a
+                                    href="#"
+                                    class="text-primary hover:underline"
+                                    >términos y condiciones</a
+                                > y la
+                                <a href="#" class="text-primary hover:underline"
+                                    >política de privacidad</a
+                                >
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="lg:col-span-1">
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-gray-200 dark:border-slate-700 sticky top-24"
+                    >
+                        <h2
+                            class="text-xl font-bold text-slate-900 dark:text-white mb-6"
+                        >
+                            Tu Pedido
+                        </h2>
+
+                        <!-- Order Items -->
+                        <div
+                            id="orderItems"
+                            class="space-y-4 mb-6 max-h-64 overflow-y-auto"
+                        >
+                            <!-- Items will be loaded here -->
+                        </div>
+
+                        <!-- Summary -->
+                        <div
+                            class="space-y-3 pt-4 border-t border-gray-200 dark:border-slate-700"
+                        >
+                            <div
+                                class="flex justify-between text-slate-700 dark:text-gray-300"
+                            >
+                                <span>Subtotal</span>
+                                <span id="checkoutSubtotal">$0.00</span>
+                            </div>
+                            <div
+                                class="flex justify-between text-green-600 dark:text-green-400"
+                            >
+                                <span>Descuento</span>
+                                <span id="checkoutDiscount">-$0.00</span>
+                            </div>
+                            <div
+                                class="border-t border-gray-200 dark:border-slate-700 pt-3"
+                            >
+                                <div
+                                    class="flex justify-between text-xl font-bold text-slate-900 dark:text-white"
+                                >
+                                    <span>Total</span>
+                                    <span id="checkoutTotal">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Complete Order Button -->
+                        <button
+                            id="completeOrderBtn"
+                            class="w-full mt-6 flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white font-bold px-6 py-4 rounded-xl transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            <span class="material-symbols-outlined">lock</span>
+                            Completar Pedido
+                        </button>
+
+                        <!-- Security Badges -->
+                        <div
+                            class="mt-6 pt-6 border-t border-gray-200 dark:border-slate-700 space-y-2"
+                        >
+                            <div
+                                class="flex items-center gap-2 text-xs text-slate-600 dark:text-gray-400"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-green-500 text-sm"
+                                    >verified_user</span
+                                >
+                                Conexión segura SSL
+                            </div>
+                            <div
+                                class="flex items-center gap-2 text-xs text-slate-600 dark:text-gray-400"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-blue-500 text-sm"
+                                    >shield</span
+                                >
+                                Protección de datos garantizada
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <Footer />
+</Layout>
+
+<script>
+    import { getAllProducts } from "../data/products";
+
+    interface CartItem {
+        id: string;
+        quantity: number;
+    }
+
+    function loadOrderSummary() {
+        const cart: CartItem[] = JSON.parse(
+            localStorage.getItem("cart") || "[]",
+        );
+        const products = getAllProducts();
+        const orderItemsContainer = document.getElementById("orderItems");
+
+        if (cart.length === 0) {
+            window.location.href = "/carrito";
+            return;
+        }
+
+        let subtotal = 0;
+        let originalTotal = 0;
+
+        if (orderItemsContainer) {
+            orderItemsContainer.innerHTML = cart
+                .map((item) => {
+                    const product = products.find((p) => p.id === item.id);
+                    if (!product) return "";
+
+                    const itemTotal = product.price * item.quantity;
+                    const itemOriginalTotal =
+                        (product.originalPrice || product.price) *
+                        item.quantity;
+
+                    subtotal += itemTotal;
+                    originalTotal += itemOriginalTotal;
+
+                    return `
+					<div class="flex items-center gap-3 pb-3 border-b border-gray-200 dark:border-slate-700">
+						<div class="${product.gradient} rounded-lg w-12 h-12 flex-shrink-0 flex items-center justify-center">
+							${
+                                product.logo
+                                    ? `<img src="${product.logo}" alt="${product.name}" class="w-8 h-8 object-contain" />`
+                                    : `<span class="material-symbols-outlined text-white text-xl">shopping_bag</span>`
+                            }
+						</div>
+						<div class="flex-1 min-w-0">
+							<h4 class="text-sm font-bold text-slate-900 dark:text-white truncate">
+								${product.name}
+							</h4>
+							<p class="text-xs text-slate-600 dark:text-gray-400">
+								${item.quantity}x $${product.price}
+							</p>
+						</div>
+						<span class="text-sm font-bold text-slate-900 dark:text-white">
+							$${itemTotal.toFixed(2)}
+						</span>
+					</div>
+				`;
+                })
+                .join("");
+
+            // Update summary
+            const discount = originalTotal - subtotal;
+            document.getElementById("checkoutSubtotal")!.textContent =
+                `$${originalTotal.toFixed(2)}`;
+            document.getElementById("checkoutDiscount")!.textContent =
+                `-$${discount.toFixed(2)}`;
+            document.getElementById("checkoutTotal")!.textContent =
+                `$${subtotal.toFixed(2)}`;
+        }
+    }
+
+    loadOrderSummary();
+
+    // Handle order completion
+    document
+        .getElementById("completeOrderBtn")
+        ?.addEventListener("click", () => {
+            const email = (document.getElementById("email") as HTMLInputElement)
+                .value;
+            const firstName = (
+                document.getElementById("firstName") as HTMLInputElement
+            ).value;
+            const lastName = (
+                document.getElementById("lastName") as HTMLInputElement
+            ).value;
+            const terms = (document.getElementById("terms") as HTMLInputElement)
+                .checked;
+            const paymentMethod = (
+                document.querySelector(
+                    'input[name="paymentMethod"]:checked',
+                ) as HTMLInputElement
+            )?.value;
+
+            if (!email || !firstName || !lastName) {
+                alert("Por favor completa todos los campos requeridos");
+                return;
+            }
+
+            if (!terms) {
+                alert("Debes aceptar los términos y condiciones");
+                return;
+            }
+
+            // Simulate payment processing
+            const btn = document.getElementById("completeOrderBtn");
+            if (btn) {
+                btn.textContent = "Procesando...";
+                (btn as HTMLButtonElement).disabled = true;
+            }
+
+            setTimeout(() => {
+                // Clear cart
+                localStorage.removeItem("cart");
+                window.dispatchEvent(new Event("cartUpdated"));
+
+                // Redirect to success page
+                alert(
+                    "¡Pedido completado con éxito! Recibirás un email con los detalles de tu compra.",
+                );
+                window.location.href = "/";
+            }, 2000);
+        });
+</script>

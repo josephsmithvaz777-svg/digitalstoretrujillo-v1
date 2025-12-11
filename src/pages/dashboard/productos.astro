@@ -1,0 +1,395 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getAllProducts } from "../../data/products";
+import "../../styles/global.css";
+
+const products = getAllProducts();
+---
+
+<Layout title="Gestión de Productos - Dashboard">
+    <div class="h-screen overflow-hidden flex">
+        <!-- Sidebar (same as dashboard) -->
+        <aside
+            class="w-72 flex-none border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111418] flex flex-col justify-between z-30 hidden lg:flex shadow-[4px_0_24px_rgba(0,0,0,0.02)]"
+        >
+            <div class="flex flex-col h-full">
+                <div
+                    class="h-20 flex items-center px-8 border-b border-slate-100 dark:border-slate-800/50"
+                >
+                    <div class="flex items-center gap-3">
+                        <div class="bg-primary text-white p-1.5 rounded-lg">
+                            <span class="material-symbols-outlined text-[24px]"
+                                >grid_view</span
+                            >
+                        </div>
+                        <span
+                            class="text-xl font-bold tracking-tight text-slate-900 dark:text-white"
+                        >
+                            Seller<span class="text-primary">Hub</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="px-6 py-8">
+                    <div
+                        class="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50"
+                    >
+                        <div
+                            class="bg-primary text-white rounded-full h-12 w-12 flex items-center justify-center font-bold text-lg"
+                        >
+                            A
+                        </div>
+                        <div class="flex flex-col overflow-hidden">
+                            <h3
+                                class="text-sm font-bold text-slate-900 dark:text-white truncate"
+                            >
+                                Admin Usuario
+                            </h3>
+                            <p
+                                class="text-xs text-slate-500 dark:text-slate-400 font-medium"
+                            >
+                                Vendedor Pro
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="flex-1 px-4 flex flex-col gap-1.5 overflow-y-auto">
+                    <p
+                        class="px-4 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 mt-2"
+                    >
+                        Menú
+                    </p>
+
+                    <a
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group"
+                        href="/dashboard"
+                    >
+                        <span
+                            class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors"
+                            >dashboard</span
+                        >
+                        <span class="text-sm font-medium">Dashboard</span>
+                    </a>
+
+                    <a
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group"
+                        href="/dashboard/clientes"
+                    >
+                        <span
+                            class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors"
+                            >group</span
+                        >
+                        <span class="text-sm font-medium">Clientes</span>
+                    </a>
+
+                    <a
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-white shadow-glow transition-all"
+                        href="/dashboard/productos"
+                    >
+                        <span class="material-symbols-outlined text-[22px]"
+                            >inventory_2</span
+                        >
+                        <span class="text-sm font-medium">Productos</span>
+                    </a>
+
+                    <a
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group"
+                        href="/dashboard/pagos"
+                    >
+                        <span
+                            class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors"
+                            >payments</span
+                        >
+                        <span class="text-sm font-medium">Pagos</span>
+                    </a>
+
+                    <p
+                        class="px-4 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 mt-6"
+                    >
+                        Sistema
+                    </p>
+
+                    <a
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group"
+                        href="/dashboard/configuracion"
+                    >
+                        <span
+                            class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors"
+                            >settings</span
+                        >
+                        <span class="text-sm font-medium">Configuración</span>
+                    </a>
+                </nav>
+
+                <div
+                    class="p-4 border-t border-slate-200 dark:border-slate-800"
+                >
+                    <button
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors w-full"
+                    >
+                        <span class="material-symbols-outlined text-[22px]"
+                            >logout</span
+                        >
+                        <span class="text-sm font-medium">Cerrar Sesión</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+            <div
+                class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark"
+            >
+                <div class="max-w-7xl mx-auto p-4 md:p-8 flex flex-col gap-8">
+                    <!-- Header -->
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                    >
+                        <div>
+                            <h1
+                                class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight"
+                            >
+                                Gestión de Productos
+                            </h1>
+                            <p class="text-slate-500 dark:text-slate-400 mt-1">
+                                Administra tu catálogo de productos digitales
+                            </p>
+                        </div>
+                        <button
+                            class="bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-lg text-sm font-bold shadow-lg shadow-primary/20 transition-colors flex items-center gap-2"
+                        >
+                            <span class="material-symbols-outlined text-[18px]"
+                                >add</span
+                            >
+                            Agregar Producto
+                        </button>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div
+                            class="bg-white dark:bg-card-dark p-5 rounded-xl shadow-soft border border-slate-100 dark:border-slate-700/50"
+                        >
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                                >
+                                    <span class="material-symbols-outlined"
+                                        >inventory_2</span
+                                    >
+                                </div>
+                                <div>
+                                    <p
+                                        class="text-xs text-slate-500 dark:text-slate-400 font-medium"
+                                    >
+                                        Total Productos
+                                    </p>
+                                    <p
+                                        class="text-2xl font-bold text-slate-900 dark:text-white"
+                                    >
+                                        {products.length}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-white dark:bg-card-dark p-5 rounded-xl shadow-soft border border-slate-100 dark:border-slate-700/50"
+                        >
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="p-2 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400"
+                                >
+                                    <span class="material-symbols-outlined"
+                                        >check_circle</span
+                                    >
+                                </div>
+                                <div>
+                                    <p
+                                        class="text-xs text-slate-500 dark:text-slate-400 font-medium"
+                                    >
+                                        Activos
+                                    </p>
+                                    <p
+                                        class="text-2xl font-bold text-slate-900 dark:text-white"
+                                    >
+                                        {
+                                            products.filter((p) => p.isActive)
+                                                .length
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-white dark:bg-card-dark p-5 rounded-xl shadow-soft border border-slate-100 dark:border-slate-700/50"
+                        >
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="p-2 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400"
+                                >
+                                    <span class="material-symbols-outlined"
+                                        >trending_up</span
+                                    >
+                                </div>
+                                <div>
+                                    <p
+                                        class="text-xs text-slate-500 dark:text-slate-400 font-medium"
+                                    >
+                                        Stock Total
+                                    </p>
+                                    <p
+                                        class="text-2xl font-bold text-slate-900 dark:text-white"
+                                    >
+                                        {
+                                            products.reduce(
+                                                (acc, p) => acc + p.stock,
+                                                0,
+                                            )
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Table -->
+                    <div
+                        class="bg-white dark:bg-card-dark rounded-xl shadow-soft border border-slate-100 dark:border-slate-700/50 overflow-hidden"
+                    >
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead
+                                    class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700"
+                                >
+                                    <tr>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                                        >
+                                            Producto
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                                        >
+                                            Categoría
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                                        >
+                                            Precio
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                                        >
+                                            Stock
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                                        >
+                                            Estado
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-right text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                                        >
+                                            Acciones
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="divide-y divide-slate-200 dark:divide-slate-700"
+                                >
+                                    {
+                                        products.map((product) => (
+                                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                                                <td class="px-6 py-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <div
+                                                            class={`w-10 h-10 rounded-lg ${product.gradient} flex items-center justify-center`}
+                                                        >
+                                                            <span class="material-symbols-outlined text-white text-sm">
+                                                                star
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-sm font-bold text-slate-900 dark:text-white">
+                                                                {product.name}
+                                                            </p>
+                                                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                                                                {
+                                                                    product.description
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 capitalize">
+                                                        {product.category}
+                                                    </span>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <p class="text-sm font-bold text-slate-900 dark:text-white">
+                                                        ${product.price}
+                                                    </p>
+                                                    {product.originalPrice && (
+                                                        <p class="text-xs text-slate-400 line-through">
+                                                            $
+                                                            {
+                                                                product.originalPrice
+                                                            }
+                                                        </p>
+                                                    )}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <p class="text-sm font-medium text-slate-900 dark:text-white">
+                                                        {product.stock} unidades
+                                                    </p>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    {product.isActive ? (
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400">
+                                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5" />
+                                                            Activo
+                                                        </span>
+                                                    ) : (
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400">
+                                                            <span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5" />
+                                                            Inactivo
+                                                        </span>
+                                                    )}
+                                                </td>
+                                                <td class="px-6 py-4 text-right">
+                                                    <div class="flex items-center justify-end gap-2">
+                                                        <button
+                                                            class="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                                            title="Editar"
+                                                        >
+                                                            <span class="material-symbols-outlined text-[18px]">
+                                                                edit
+                                                            </span>
+                                                        </button>
+                                                        <button
+                                                            class="p-2 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                                                            title="Eliminar"
+                                                        >
+                                                            <span class="material-symbols-outlined text-[18px]">
+                                                                delete
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</Layout>

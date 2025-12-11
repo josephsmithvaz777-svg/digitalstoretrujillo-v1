@@ -1,0 +1,328 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+---
+
+<Layout title="Carrito de Compras - DigitalStore">
+    <Header currentPath="/carrito" />
+
+    <main
+        class="flex-grow bg-background-light dark:bg-background-dark min-h-screen"
+    >
+        <div class="container mx-auto px-4 md:px-10 py-12 max-w-7xl">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1
+                    class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-2"
+                >
+                    Carrito de Compras
+                </h1>
+                <p class="text-slate-600 dark:text-gray-400">
+                    Revisa tus productos antes de proceder al pago
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Cart Items -->
+                <div class="lg:col-span-2">
+                    <div id="cartItems" class="space-y-4">
+                        <!-- Items will be loaded here by JavaScript -->
+                    </div>
+
+                    <!-- Empty Cart State -->
+                    <div
+                        id="emptyCart"
+                        class="hidden bg-white dark:bg-slate-800 rounded-2xl p-12 text-center border border-gray-200 dark:border-slate-700"
+                    >
+                        <span
+                            class="material-symbols-outlined text-6xl text-gray-300 dark:text-gray-600 mb-4"
+                        >
+                            shopping_cart
+                        </span>
+                        <h3
+                            class="text-xl font-bold text-slate-900 dark:text-white mb-2"
+                        >
+                            Tu carrito está vacío
+                        </h3>
+                        <p class="text-slate-600 dark:text-gray-400 mb-6">
+                            Agrega algunos productos para comenzar
+                        </p>
+                        <a
+                            href="/tienda"
+                            class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white font-bold px-6 py-3 rounded-lg transition-colors"
+                        >
+                            <span class="material-symbols-outlined"
+                                >shopping_bag</span
+                            >
+                            Ir a la Tienda
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="lg:col-span-1">
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-gray-200 dark:border-slate-700 sticky top-24"
+                    >
+                        <h2
+                            class="text-xl font-bold text-slate-900 dark:text-white mb-6"
+                        >
+                            Resumen del Pedido
+                        </h2>
+
+                        <div class="space-y-4 mb-6">
+                            <div
+                                class="flex justify-between text-slate-700 dark:text-gray-300"
+                            >
+                                <span>Subtotal</span>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div
+                                class="flex justify-between text-slate-700 dark:text-gray-300"
+                            >
+                                <span>Descuento</span>
+                                <span
+                                    id="discount"
+                                    class="text-green-600 dark:text-green-400"
+                                    >-$0.00</span
+                                >
+                            </div>
+                            <div
+                                class="border-t border-gray-200 dark:border-slate-700 pt-4"
+                            >
+                                <div
+                                    class="flex justify-between text-lg font-bold text-slate-900 dark:text-white"
+                                >
+                                    <span>Total</span>
+                                    <span id="total">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button
+                            id="checkoutBtn"
+                            class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white font-bold px-6 py-4 rounded-xl transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled
+                        >
+                            <span class="material-symbols-outlined">lock</span>
+                            Proceder al Pago
+                        </button>
+
+                        <!-- Trust Badges -->
+                        <div
+                            class="mt-6 pt-6 border-t border-gray-200 dark:border-slate-700 space-y-3"
+                        >
+                            <div
+                                class="flex items-center gap-2 text-sm text-slate-600 dark:text-gray-400"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-green-500"
+                                    >verified</span
+                                >
+                                Pago 100% seguro
+                            </div>
+                            <div
+                                class="flex items-center gap-2 text-sm text-slate-600 dark:text-gray-400"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-blue-500"
+                                    >bolt</span
+                                >
+                                Entrega instantánea
+                            </div>
+                            <div
+                                class="flex items-center gap-2 text-sm text-slate-600 dark:text-gray-400"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-purple-500"
+                                    >support_agent</span
+                                >
+                                Soporte 24/7
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <Footer />
+</Layout>
+
+<script>
+    import { getAllProducts } from "../data/products";
+
+    interface CartItem {
+        id: string;
+        quantity: number;
+    }
+
+    function loadCart() {
+        const cart: CartItem[] = JSON.parse(
+            localStorage.getItem("cart") || "[]",
+        );
+        const products = getAllProducts();
+        const cartItemsContainer = document.getElementById("cartItems");
+        const emptyCart = document.getElementById("emptyCart");
+        const checkoutBtn = document.getElementById("checkoutBtn");
+
+        if (cart.length === 0) {
+            if (cartItemsContainer) cartItemsContainer.classList.add("hidden");
+            if (emptyCart) emptyCart.classList.remove("hidden");
+            if (checkoutBtn) checkoutBtn.disabled = true;
+            return;
+        }
+
+        if (cartItemsContainer) cartItemsContainer.classList.remove("hidden");
+        if (emptyCart) emptyCart.classList.add("hidden");
+        if (checkoutBtn) checkoutBtn.disabled = false;
+
+        let subtotal = 0;
+        let originalTotal = 0;
+
+        if (cartItemsContainer) {
+            cartItemsContainer.innerHTML = cart
+                .map((item) => {
+                    const product = products.find((p) => p.id === item.id);
+                    if (!product) return "";
+
+                    const itemTotal = product.price * item.quantity;
+                    const itemOriginalTotal =
+                        (product.originalPrice || product.price) *
+                        item.quantity;
+
+                    subtotal += itemTotal;
+                    originalTotal += itemOriginalTotal;
+
+                    return `
+					<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-gray-200 dark:border-slate-700 flex flex-col sm:flex-row gap-6" data-product-id="${product.id}">
+						<div class="${product.gradient} rounded-xl w-24 h-24 flex-shrink-0 flex items-center justify-center">
+							${
+                                product.logo
+                                    ? `<img src="${product.logo}" alt="${product.name}" class="w-16 h-16 object-contain" />`
+                                    : `<span class="material-symbols-outlined text-white text-4xl">shopping_bag</span>`
+                            }
+						</div>
+						
+						<div class="flex-1 flex flex-col sm:flex-row justify-between gap-4">
+							<div class="flex-1">
+								<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">
+									${product.name}
+								</h3>
+								<p class="text-sm text-slate-600 dark:text-gray-400 mb-2">
+									${product.description}
+								</p>
+								<div class="flex items-center gap-2">
+									<span class="text-xl font-bold text-slate-900 dark:text-white">
+										$${product.price}
+									</span>
+									${
+                                        product.originalPrice
+                                            ? `<span class="text-sm text-slate-400 dark:text-gray-500 line-through">$${product.originalPrice}</span>`
+                                            : ""
+                                    }
+								</div>
+							</div>
+
+							<div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-4">
+								<div class="flex items-center gap-2 bg-gray-100 dark:bg-slate-700 rounded-lg p-1">
+									<button 
+										class="decrease-qty w-8 h-8 flex items-center justify-center rounded bg-white dark:bg-slate-600 hover:bg-primary hover:text-white transition-colors"
+										data-product-id="${product.id}"
+									>
+										<span class="material-symbols-outlined text-sm">remove</span>
+									</button>
+									<span class="w-8 text-center font-bold text-slate-900 dark:text-white">
+										${item.quantity}
+									</span>
+									<button 
+										class="increase-qty w-8 h-8 flex items-center justify-center rounded bg-white dark:bg-slate-600 hover:bg-primary hover:text-white transition-colors"
+										data-product-id="${product.id}"
+									>
+										<span class="material-symbols-outlined text-sm">add</span>
+									</button>
+								</div>
+
+								<button 
+									class="remove-item text-red-500 hover:text-red-600 transition-colors"
+									data-product-id="${product.id}"
+								>
+									<span class="material-symbols-outlined">delete</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				`;
+                })
+                .join("");
+
+            // Update summary
+            const discount = originalTotal - subtotal;
+            document.getElementById("subtotal")!.textContent =
+                `$${originalTotal.toFixed(2)}`;
+            document.getElementById("discount")!.textContent =
+                `-$${discount.toFixed(2)}`;
+            document.getElementById("total")!.textContent =
+                `$${subtotal.toFixed(2)}`;
+
+            // Add event listeners
+            document.querySelectorAll(".increase-qty").forEach((btn) => {
+                btn.addEventListener("click", (e) => {
+                    const productId = (e.currentTarget as HTMLElement).dataset
+                        .productId;
+                    updateQuantity(productId!, 1);
+                });
+            });
+
+            document.querySelectorAll(".decrease-qty").forEach((btn) => {
+                btn.addEventListener("click", (e) => {
+                    const productId = (e.currentTarget as HTMLElement).dataset
+                        .productId;
+                    updateQuantity(productId!, -1);
+                });
+            });
+
+            document.querySelectorAll(".remove-item").forEach((btn) => {
+                btn.addEventListener("click", (e) => {
+                    const productId = (e.currentTarget as HTMLElement).dataset
+                        .productId;
+                    removeItem(productId!);
+                });
+            });
+        }
+    }
+
+    function updateQuantity(productId: string, change: number) {
+        let cart: CartItem[] = JSON.parse(localStorage.getItem("cart") || "[]");
+        const item = cart.find((i) => i.id === productId);
+
+        if (item) {
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter((i) => i.id !== productId);
+            }
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        window.dispatchEvent(new Event("cartUpdated"));
+        loadCart();
+    }
+
+    function removeItem(productId: string) {
+        let cart: CartItem[] = JSON.parse(localStorage.getItem("cart") || "[]");
+        cart = cart.filter((i) => i.id !== productId);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        window.dispatchEvent(new Event("cartUpdated"));
+        loadCart();
+    }
+
+    // Load cart on page load
+    loadCart();
+
+    // Checkout button
+    document.getElementById("checkoutBtn")?.addEventListener("click", () => {
+        window.location.href = "/checkout";
+    });
+</script>
