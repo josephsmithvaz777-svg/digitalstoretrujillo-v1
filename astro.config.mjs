@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://josephsmithvaz777-svg.github.io',
-  base: '/digitalstoretrujillo-v1',
+  base: import.meta.env.PROD ? '/digitalstoretrujillo-v1' : '/',
   output: 'static',
   vite: {
     plugins: [tailwindcss()]
