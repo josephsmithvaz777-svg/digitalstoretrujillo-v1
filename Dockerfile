@@ -26,14 +26,16 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV HOST=0.0.0.0
+ENV PORT=3000
 
 # Copiar archivos necesarios
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
-# Exponer puerto
-EXPOSE 4321
+# Exponer puerto (Coolify lo asignará dinámicamente)
+EXPOSE ${PORT}
 
 # Comando para iniciar
 CMD ["node", "./dist/server/entry.mjs"]
