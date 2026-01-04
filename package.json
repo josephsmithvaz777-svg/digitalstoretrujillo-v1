@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@astrojs/node": "^9.5.1",
+    "@supabase/supabase-js": "^2.89.0",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.5",
-    "mongodb": "^7.0.0",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
